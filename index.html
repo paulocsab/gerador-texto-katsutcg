@@ -1,72 +1,80 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gerador de Texto - Katsu TCG</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Katsu TCG - Gerador de Mensagem para Leilão | Cartas</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <main class="wrap">
-        <section class="panel">
-            <div class="top"><h2 id="formTitle">Nova carta</h2></div>
-                <form id="cardForm">
-                    <div class="grid" style="margin-top:17px">
-                        <div class="field wide">
-                            <label for="carta">Carta</label>
-                            <input id="carta" required placeholder="Nome 000/000">
-                        </div>
-                        <div class="field fd-sm">
-                            <label for="idioma">Idioma</label>
-                            <select id="idioma">
-                                <option value="PT">PT</option>
-                                <option value="ENG">ENG</option>
-                                <option value="JPN">JP</option>
-                                <option value="CHN">CH</option>
-                                <option value="KOR">KOR</option>
-                                <option value="ESP">ESP</option>
-                                <option value="ITA">ITA</option>
-                            </select>
-                        </div>
-                        <div class="field fd-sm">
-                            <label for="condicao">Condição</label>
-                            <input id="condicao" required placeholder="NM">
-                        </div>
-                        <div class="field fd-wide">
-                            <label for="referencia">Referência</label>
-                            <input id="referencia" required placeholder="Liga">
-                        </div>
-                        <div class="field fd-sm">
-                            <label for="pagamento">Data Pagamento</label>
-                            <input type="date" id="pagamento" required>
-                        </div>
-                    </div>
-                        
-                    <div class="actions">
-                        <button class="primary" type="submit" id="submitBtn">Adicionar carta</button>
-                        <button type="button" id="cancelBtn" hidden>Cancelar edição</button>
-                    </div>
-                </form>
+  <main class="wrap">
+    <h1>Gerador de Mensagem de Cartas de Leilão</h1>
 
-            <div class="preview-wrap">
-                <label>Prévia</label>
-                <div class="preview" id="preview"></div>
+    <section class="panel">
+      <div class="field">
+        <label for="titulo">Título</label>
+        <input id="titulo" type="text" placeholder="Leilão 001" required>
+      </div>
+    </section>
 
-        <section class="panel">
-            <div class="top">
-                <h2>Cartas Adicionadas (<span id="count">0</span>)</h2>
-            </div>
-            <div id="entries"></div>
-            <div class="actions">
-                <button class="primary" id="exportBtn" type="button">Exportar txt</button>
-                <button id="copyBtn" type="button">Copiar todas</button>
-                <button class="danger" id="clearBtn" type="button">Excluir todas</button>
-            </div>
-            <div class="hint" id="status" role="status"></div>
-        </section>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
-    <script src="script.js"></script>
+    <section class="panel">
+      <div class="top">
+        <h2 id="formTitle">Nova carta</h2>
+      </div>
+      <form id="cardForm">
+        <div class="grid form-fields">
+          <div class="field wide">
+            <label for="carta">Carta</label>
+            <input id="carta" required placeholder="Nome 000/000">
+          </div>
+          <div class="field">
+            <label for="idioma">Idioma</label>
+            <select id="idioma" required>
+              <option value="PT">PT</option>
+              <option value="ENG">ENG</option>
+              <option value="JPN">JP</option>
+              <option value="CHN">CHN</option>
+              <option value="KOR">COR</option>
+              <option value="ESP">ESP</option> 
+            </select>
+          </div>
+          <div class="field compact">
+            <label for="condicao">Condição</label>
+            <input id="condicao" required placeholder="NM" value="NM">
+          </div>
+          <div class="field wide">
+            <label for="referencia">Referência</label>
+            <input id="referencia" required placeholder="Liga">
+          </div>
+          <div class="field compact date-field">
+            <label for="pagamento">Pagamento até</label>
+            <input id="pagamento" type="text" placeholder="DD/MM" autocomplete="off">
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="submitBtn" type="submit">Adicionar carta</button>
+          <button id="cancelBtn" type="button" hidden>Cancelar edição</button>
+        </div>
+      </form>
+      <div class="preview-area">
+        <label>Prévia da mensagem</label>
+        <div class="preview" id="preview"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Cartas adicionadas (<span id="count">0</span>)</h2>
+      <div id="entries"></div>
+      <div class="actions">
+        <button class="primary" id="exportBtn" type="button">⬇ Exportar .txt</button>
+        <button id="copyBtn" type="button">Copiar todas</button>
+        <button class="danger" id="clearBtn" type="button">Excluir todas</button>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
