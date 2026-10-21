@@ -1,8 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20292f">
   <title>Katsu TCG - Gerador de Mensagem para Leilão | Cartas</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="style.css">
@@ -11,70 +12,96 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-  <main class="wrap">
-    <h1>Gerador de Mensagem de Cartas de Leilão</h1>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="Katsu TCG, início">
+        <span>KATSU<span class="brand-tcg">TCG</span></span>
+      </a>
+    </div>
+  </header>
 
-    <section class="panel">
-      <div class="field">
-        <label for="titulo">Título</label>
+  <main class="wrap">
+    <div class="page-heading">
+      <div>
+        <h1>Gerenciador de Texto para Leilão</h1>
+      </div>
+      <a class="text-link" href="#collection">Ver cartas adicionadas <span aria-hidden="true">↓</span></a>
+    </div>
+
+    <section class="auction-context" aria-label="Identificação do leilão">
+      <div class="field title-field">
+        <label for="titulo">Número do Leilão</label>
         <input id="titulo" type="text" placeholder="Leilão 001" required>
       </div>
     </section>
 
-    <section class="panel">
-      <div class="top">
-        <h2 id="formTitle">Nova carta</h2>
-      </div>
-      <form id="cardForm">
-        <div class="grid form-fields">
-          <div class="field wide">
-            <label for="carta">Carta</label>
-            <input id="carta" required placeholder="Nome 000/000">
-          </div>
-          <div class="field">
-            <label for="idioma">Idioma</label>
-            <select id="idioma" required>
-              <option value="PT">PT</option>
-              <option value="ENG">ENG</option>
-              <option value="JPN">JP</option>
-              <option value="CHN">CHN</option>
-              <option value="KOR">COR</option>
-              <option value="ESP">ESP</option> 
-            </select>
-          </div>
-          <div class="field compact">
-            <label for="condicao">Condição</label>
-            <input id="condicao" required placeholder="NM" value="NM">
-          </div>
-          <div class="field wide">
-            <label for="referencia">Referência</label>
-            <input id="referencia" required placeholder="Liga">
-          </div>
-          <div class="field compact date-field">
-            <label for="pagamento">Pagamento até</label>
-            <input id="pagamento" type="text" placeholder="DD/MM" autocomplete="off">
-          </div>
+    <section class="workspace" aria-labelledby="formTitle">
+      <div class="editor">
+        <div class="section-heading">
+          <h2 id="formTitle">Nova carta</h2>
         </div>
-        <div class="actions">
-          <button class="primary" id="submitBtn" type="submit">Adicionar carta</button>
-          <button id="cancelBtn" type="button" hidden>Cancelar edição</button>
-        </div>
-      </form>
-      <div class="preview-area">
-        <label>Prévia da mensagem</label>
-        <div class="preview" id="preview"></div>
+        <form id="cardForm">
+          <div class="grid form-fields">
+            <div class="field wide">
+              <label for="carta">Carta</label>
+              <input id="carta" required placeholder="Nome 000/000">
+            </div>
+            <div class="field">
+              <label for="idioma">Idioma</label>
+              <select id="idioma" required>
+                <option value="PT">PT</option>
+                <option value="ENG">ENG</option>
+                <option value="JPN">JP</option>
+                <option value="CHN">CHN</option>
+                <option value="KOR">COR</option>
+                <option value="ESP">ESP</option>
+              </select>
+            </div>
+            <div class="field compact">
+              <label for="condicao">Condição</label>
+              <input id="condicao" required placeholder="NM" value="NM">
+            </div>
+            <div class="field">
+              <label for="referencia">Referência</label>
+              <input id="referencia" required placeholder="Liga">
+            </div>
+            <div class="field compact date-field">
+              <label for="pagamento">Pagamento até</label>
+              <input id="pagamento" type="text" placeholder="DD/MM" autocomplete="off">
+            </div>
+          </div>
+          <div class="actions form-actions">
+            <button class="primary" id="submitBtn" type="submit">Adicionar carta</button>
+            <button id="cancelBtn" type="button" hidden>Cancelar edição</button>
+          </div>
+        </form>
       </div>
+      <aside class="preview-area" aria-labelledby="previewHeading">
+        <div class="section-heading">
+          <h2 id="previewHeading">Prévia da mensagem</h2>
+        </div>
+        <div class="message-proof">
+          <div class="preview" id="preview" role="region" aria-label="Texto da mensagem"></div>
+        </div>
+      </aside>
     </section>
 
-    <section class="panel">
-      <h2>Cartas adicionadas (<span id="count">0</span>)</h2>
-      <div id="entries"></div>
-      <div class="actions">
-        <button class="primary" id="exportBtn" type="button">⬇ Exportar .txt</button>
-        <button id="copyBtn" type="button">Copiar todas</button>
-        <button class="danger" id="clearBtn" type="button">Excluir todas</button>
+    <div class="feedback-line">
+      <p id="status" role="status" aria-live="polite" aria-atomic="true"></p>
+    </div>
+
+    <section class="collection" id="collection" aria-labelledby="collectionHeading">
+      <div class="collection-heading">
+        <h2 id="collectionHeading">Cartas adicionadas <span class="count" id="count">0</span></h2>
+        <div class="actions collection-actions">
+          <button class="delivery" id="exportBtn" type="button"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2v10m-4-4 4 4 4-4M3 13v4h14v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Exportar .txt</button>
+          <button class="delivery" id="copyBtn" type="button"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="7" width="10" height="11" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M13 5V2H3v11h2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Copiar todas</button>
+          <button class="danger quiet" id="clearBtn" type="button">Excluir todas</button>
+        </div>
       </div>
+      <div id="entries"></div>
     </section>
   </main>
 </body>
 </html>
+

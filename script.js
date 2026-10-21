@@ -1,21 +1,28 @@
-(() => {
+﻿(() => {
   'use strict';
 
   const STORAGE_KEY = 'gerador-texto-katsutcg';
   const FIELD_IDS = ['carta', 'idioma', 'condicao', 'referencia', 'pagamento'];
   const $ = id => document.getElementById(id);
   const form = $('cardForm');
-  const status = message => { $('status').textContent = message; };
+
+  const status = message => { document.getElementById('status').textContent = message; };
+
+  // Remove data saved by the previous persistent-storage version.
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Storage may be blocked by the browser's privacy settings.
+  }
 
   function loadData() {
     try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
       if (saved && Array.isArray(saved.entries)) return saved;
-      const legacy = JSON.parse(localStorage.getItem(LEGACY_KEY) || '[]');
-      return { entries: Array.isArray(legacy) ? legacy : [], title: '', defaultDate: '' };
     } catch {
-      return { entries: [], title: '', defaultDate: '' };
+      // An invalid or unavailable session starts with an empty auction.
     }
+    return { entries: [], title: '', defaultDate: '' };
   }
 
   const data = loadData();
@@ -26,7 +33,7 @@
 
   function save() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
         entries,
         title: $('titulo').value,
         defaultDate
@@ -68,6 +75,10 @@ Pix ou Crédito 12x (mais juros da máquina)`;
     allowInput: false,
     disableMobile: true,
     locale: 'pt',
+    onReady: (_, __, instance) => {
+      instance.altInput.id = 'pagamento-visible';
+      document.querySelector('label[for="pagamento"]').htmlFor = 'pagamento-visible';
+    },
     onChange: updatePreview
   });
 
@@ -78,7 +89,7 @@ Pix ou Crédito 12x (mais juros da máquina)`;
   function resetForm() {
     editingId = null;
     form.reset();
-    $('idioma').value = 'PT-BR';
+    $('idioma').value = 'PT';
     picker.setDate(defaultDate, false);
     $('formTitle').textContent = 'Nova carta';
     $('submitBtn').textContent = 'Adicionar carta';
@@ -236,3 +247,6 @@ Pix ou Crédito 12x (mais juros da máquina)`;
   resetForm();
   render();
 })();
+
+
+
