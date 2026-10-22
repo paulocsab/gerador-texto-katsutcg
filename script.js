@@ -2,7 +2,9 @@
   'use strict';
 
   const STORAGE_KEY = 'gerador-texto-katsutcg';
-  const FIELD_IDS = ['carta', 'idioma', 'condicao', 'referencia', 'pagamento'];
+  const REQUIRED_FIELD_IDS = ['carta', 'idioma', 'condicao', 'referencia', 'pagamento'];
+  const VALUE_FIELD_IDS = ['valor1', 'valor2', 'valor3', 'valor4', 'valor5'];
+  const FIELD_IDS = [...REQUIRED_FIELD_IDS, ...VALUE_FIELD_IDS];
   const $ = id => document.getElementById(id);
   const form = $('cardForm');
 
@@ -48,12 +50,14 @@
     : '';
 
   function cardMessage(card) {
+    const values = VALUE_FIELD_IDS.map(id => (card[id] || '').trim()).filter(Boolean);
+    const extraText = values.length ? `\n${values.join('\n')}` : '';
     return `🎴 Carta: ${card.carta || ''}
 🗣️ Idioma: ${card.idioma || 'PT-BR'}
 🧑🏻‍⚕️ Condição: ${card.condicao || ''}
 💸 Referência: ${card.referencia || ''}
 
-🗓️ Pagamento até: ${formatDate(card.pagamento)}
+🗓️ Pagamento até: ${formatDate(card.pagamento)}${extraText}
 Pix ou Crédito 12x (mais juros da máquina)`;
   }
 
@@ -190,7 +194,7 @@ Pix ou Crédito 12x (mais juros da máquina)`;
       picker.open();
       return;
     }
-    if (!FIELD_IDS.every(id => card[id])) {
+    if (!REQUIRED_FIELD_IDS.every(id => card[id])) {
       status('Preencha todos os campos da carta.');
       return;
     }
