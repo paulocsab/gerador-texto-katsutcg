@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   'use strict';
 
   const STORAGE_KEY = 'gerador-texto-katsutcg';
@@ -51,14 +51,14 @@
 
   function cardMessage(card) {
     const values = VALUE_FIELD_IDS.map(id => (card[id] || '').trim()).filter(Boolean);
-    const extraText = values.length ? `\n${values.join('\n')}` : '';
+    const extraText = values.length ? `\n\n${values.join('\n')}` : '';
     return `🎴 Carta: ${card.carta || ''}
 🗣️ Idioma: ${card.idioma || 'PT-BR'}
 🧑🏻‍⚕️ Condição: ${card.condicao || ''}
 💸 Referência: ${card.referencia || ''}
 
-🗓️ Pagamento até: ${formatDate(card.pagamento)}${extraText}
-Pix ou Crédito 12x (mais juros da máquina)`;
+🗓️ Pagamento até: ${formatDate(card.pagamento)}
+Pix ou Crédito até 12x (mais juros da máquina)${extraText}`;
   }
 
   function getValues() {
