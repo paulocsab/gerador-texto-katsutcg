@@ -118,6 +118,14 @@ Pix ou Crédito até 12x (mais juros da máquina)${extraText}`;
     $('carta').focus();
   }
 
+  async function copyEntry(entry) {
+    try {
+      await navigator.clipboard.writeText(cardMessage(entry));
+      status('Carta copiada!');
+    } catch {
+      status('Não foi possível copiar automaticamente. Selecione o texto da carta e use Ctrl + C.');
+    }
+  }
   function deleteEntry(id) {
     const entry = entries.find(item => item.id === id);
     if (!entry || !confirm(`Excluir a mensagem de ${entry.carta}?`)) return;
@@ -158,6 +166,7 @@ Pix ou Crédito até 12x (mais juros da máquina)${extraText}`;
       const actions = document.createElement('div');
       actions.className = 'actions';
       actions.append(
+        makeButton('Copiar', '', () => copyEntry(entry)),
         makeButton('Editar', '', () => editEntry(entry.id)),
         makeButton('Excluir', 'danger', () => deleteEntry(entry.id))
       );
