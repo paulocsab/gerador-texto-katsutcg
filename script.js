@@ -62,7 +62,11 @@ Pix ou Crédito até 12x (mais juros da máquina)${extraText}`;
   }
 
   function getValues() {
-    return Object.fromEntries(FIELD_IDS.map(id => [id, $(id).value.trim()]));
+    const card = Object.fromEntries(FIELD_IDS.map(id => [id, $(id).value.trim()]));
+    card.referenciaFonte = card.referencia;
+    card.referenciaComplemento = $('referenciaComplemento').value.trim();
+    card.referencia = [card.referenciaFonte, card.referenciaComplemento].filter(Boolean).join(' - ');
+    return card;
   }
 
   function allText() {
@@ -106,9 +110,15 @@ Pix ou Crédito até 12x (mais juros da máquina)${extraText}`;
     if (!entry) return;
 
     editingId = id;
-    FIELD_IDS.filter(field => field !== 'pagamento').forEach(field => {
+    FIELD_IDS.filter(field => field !== 'pagamento' && field !== 'referencia').forEach(field => {
       $(field).value = entry[field] || '';
     });
+    const sources = Array.from($('referencia').options, option => option.value);
+    const legacySource = sources.find(source => entry.referencia === source || (entry.referencia || '').startsWith(`${source} - `));
+    $('referencia').value = entry.referenciaFonte || legacySource || 'Liga';
+    $('referenciaComplemento').value = entry.referenciaComplemento ?? (legacySource
+      ? (entry.referencia || '').slice(legacySource.length).replace(/^ - /, '')
+      : entry.referencia || '');
     picker.setDate(entry.pagamento || '', false);
     $('formTitle').textContent = 'Editar carta';
     $('submitBtn').textContent = 'Salvar alterações';

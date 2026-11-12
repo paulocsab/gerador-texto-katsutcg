@@ -70,9 +70,21 @@
                 <option value="D">D</option>
               </select>
             </div>
-            <div class="field">
+            <div class="field wide reference-fields">
+              <div class="field">
               <label for="referencia">Referência</label>
-              <input id="referencia" required placeholder="Liga">
+              <select id="referencia" required>
+                <option value="Liga" selected>Liga</option>
+                <option value="Myp">Myp</option>
+                <option value="PriceCharting">PriceCharting</option>
+                <option value="Ebay">Ebay</option>
+                <option value="TCGPlayer">TCGPlayer</option>
+              </select>
+              </div>
+              <div class="field">
+                <label for="referenciaComplemento">Complemento Ref.</label>
+                <input id="referenciaComplemento" placeholder="R$50,00 SP">
+              </div>
             </div>
             <div class="field compact date-field">
               <label for="pagamento">Pagamento até</label>
